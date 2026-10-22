@@ -1,0 +1,100 @@
+{
+  "horizon_days": 90,
+  "target": "1 if the customer has one or more distinct invoices in [cutoff, cutoff + 90 days), else 0",
+  "feature_policy": "All predictors use invoices strictly before the cutoff; CustomerID is not a predictor.",
+  "split_policy": "Test = latest cutoff. Train = only cutoffs whose 90-day window ends on or before the test cutoff.",
+  "training_snapshot_dates": [
+    "2011-03-01",
+    "2011-04-01",
+    "2011-05-01",
+    "2011-06-01"
+  ],
+  "training_outcome_windows_end": [
+    "2011-05-29",
+    "2011-06-29",
+    "2011-07-29",
+    "2011-08-29"
+  ],
+  "holdout_snapshot_date": "2011-09-01",
+  "holdout_outcome_window_end": "2011-11-29",
+  "training_rows": 8960,
+  "holdout_rows": 3314,
+  "training_customers": 2716,
+  "holdout_customers": 3314,
+  "training_repeat_rate": 0.5301339285714286,
+  "holdout_repeat_rate": 0.5609535304767652,
+  "baseline_always_yes_metrics": {
+    "accuracy": 0.5609535304767652,
+    "precision": 0.5609535304767652,
+    "recall": 1.0,
+    "f1": 0.7187318770539339,
+    "roc_auc": 0.5,
+    "pr_auc": 0.5609535304767652,
+    "confusion_matrix_labels_0_1": [
+      [
+        0,
+        1455
+      ],
+      [
+        0,
+        1859
+      ]
+    ]
+  },
+  "baseline_recent_purchase_rule_metrics": {
+    "accuracy": 0.648159324079662,
+    "precision": 0.6805627931214174,
+    "recall": 0.7025282409897795,
+    "f1": 0.691371095817893,
+    "roc_auc": 0.6842978063438017,
+    "pr_auc": 0.703606903683787,
+    "confusion_matrix_labels_0_1": [
+      [
+        842,
+        613
+      ],
+      [
+        553,
+        1306
+      ]
+    ]
+  },
+  "repeat_purchase_metrics": {
+    "accuracy": 0.6816535908267954,
+    "precision": 0.7515644555694618,
+    "recall": 0.6460462614308768,
+    "f1": 0.6948221000867805,
+    "roc_auc": 0.7428192743022244,
+    "pr_auc": 0.8036985660169264,
+    "confusion_matrix_labels_0_1": [
+      [
+        1058,
+        397
+      ],
+      [
+        658,
+        1201
+      ]
+    ]
+  },
+  "revenue_metrics": {
+    "mae_gbp": 564.6401199104545,
+    "rmse_gbp": 3226.036933820063,
+    "r2": 0.3011975392844356,
+    "zero_baseline_mae_gbp": 752.9445413397707
+  },
+  "value_definition": "Expected 90-day gross sales proxy = predicted repeat probability x predicted positive 90-day gross sales; not margin-based lifetime profit.",
+  "expected_value_metrics": {
+    "mae_gbp": 550.062964460015,
+    "rmse_gbp": 3097.9854525253745
+  },
+  "all_snapshot_dates": [
+    "2011-03-01",
+    "2011-04-01",
+    "2011-05-01",
+    "2011-06-01",
+    "2011-07-01",
+    "2011-08-01",
+    "2011-09-01"
+  ]
+}
