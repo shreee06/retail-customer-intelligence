@@ -6,8 +6,9 @@ scikit-learn
 jupyter
 ipykernel
 openpyxl
-streamlit
+streamlit==1.65.0
 pytest
 lifetimes==0.11.3
 autograd==1.9.1
 dill==0.4.1
+plotly==7.1.0
