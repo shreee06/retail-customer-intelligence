@@ -1,0 +1,387 @@
+{
+  "definition": "Predicted NET spend in the 90 days after the cutoff = BG/NBD expected purchase days x Gamma-Gamma expected order value x (1 - cancellation rate). A forecast, not historical spend.",
+  "cutoff": "2011-09-01",
+  "calibration_period": "2010-12-01 to 2011-08-31",
+  "holdout_window": "2011-09-01 to 2011-11-29",
+  "fit_parameters": {
+    "bgnbd": {
+      "r": 0.7204619808118222,
+      "alpha": 66.58969624358798,
+      "a": 0.010000000000000004,
+      "b": 100.00000000000004
+    },
+    "bgnbd_fit": {
+      "log_likelihood": -35326.11401476644,
+      "converged": true,
+      "a_at_lower_bound": true,
+      "b_at_upper_bound": true,
+      "dropout_probability_mean": 9.99900009999e-05
+    },
+    "gamma_gamma": {
+      "p": 11.214497374446035,
+      "q": 0.8541471801511683,
+      "v": 11.332895632409079
+    },
+    "pooled_cancellation_rate": 0.041284792833111233,
+    "population_mean_order_value_gbp": 498.77774922480614,
+    "gamma_gamma_fit_customers": 1884,
+    "bgnbd_a_bounds": [
+      0.01,
+      100.0
+    ],
+    "bgnbd_b_bounds": [
+      1.5,
+      100.0
+    ],
+    "gamma_gamma_penalizer": 0.001
+  },
+  "rules": {
+    "purchase_unit": "distinct purchase days (invoices on the same day count once)",
+    "cancellation_rate": "own rate (cancelled / gross, calibration period only, capped to [0,1]) when >= 3 purchase days, else the pooled rate",
+    "baseline": "calibration spend / max(days from first purchase to cutoff, 30) x 90"
+  },
+  "coverage": {
+    "customers_with_purchases_before_cutoff": 3314,
+    "excluded_nonpositive_calibration_net": 8,
+    "ranked_customers": 3306,
+    "single_purchase_day_customers_in_ranked": 1424,
+    "single_purchase_day_customers_all": 1430,
+    "multi_purchase_day_customers_in_ranked": 1882,
+    "gamma_gamma_customers": 1884,
+    "own_cancellation_rate_customers": 1217,
+    "pooled_cancellation_rate_customers": 2097,
+    "official_full_year_flagged_in_calibration": 6,
+    "official_full_year_flagged_in_ranked": 1
+  },
+  "all_ranked_customers": {
+    "gross": {
+      "model": {
+        "customers": 3306,
+        "total_predicted_gbp": 1571002.42,
+        "total_actual_gbp": 2493829.65,
+        "predicted_over_actual": 0.63,
+        "mae_gbp": 547.17,
+        "spearman": 0.492
+      },
+      "baseline": {
+        "customers": 3306,
+        "total_predicted_gbp": 2502909.83,
+        "total_actual_gbp": 2493829.65,
+        "predicted_over_actual": 1.004,
+        "mae_gbp": 625.25,
+        "spearman": 0.473
+      }
+    },
+    "net": {
+      "model": {
+        "customers": 3306,
+        "total_predicted_gbp": 1527828.21,
+        "total_actual_gbp": 2425568.76,
+        "predicted_over_actual": 0.63,
+        "mae_gbp": 536.38,
+        "spearman": 0.483
+      },
+      "baseline": {
+        "customers": 3306,
+        "total_predicted_gbp": 2446550.14,
+        "total_actual_gbp": 2425568.76,
+        "predicted_over_actual": 1.009,
+        "mae_gbp": 610.92,
+        "spearman": 0.463
+      }
+    }
+  },
+  "multi_purchase_day_only": {
+    "gross": {
+      "model": {
+        "customers": 1882,
+        "total_predicted_gbp": 1299697.21,
+        "total_actual_gbp": 2139396.0,
+        "predicted_over_actual": 0.608,
+        "mae_gbp": 728.15,
+        "spearman": 0.586
+      },
+      "baseline": {
+        "customers": 1882,
+        "total_predicted_gbp": 1887562.48,
+        "total_actual_gbp": 2139396.0,
+        "predicted_over_actual": 0.882,
+        "mae_gbp": 740.35,
+        "spearman": 0.545
+      }
+    },
+    "net": {
+      "model": {
+        "customers": 1882,
+        "total_predicted_gbp": 1267723.77,
+        "total_actual_gbp": 2079794.01,
+        "predicted_over_actual": 0.61,
+        "mae_gbp": 715.97,
+        "spearman": 0.577
+      },
+      "baseline": {
+        "customers": 1882,
+        "total_predicted_gbp": 1837591.83,
+        "total_actual_gbp": 2079794.01,
+        "predicted_over_actual": 0.884,
+        "mae_gbp": 721.17,
+        "spearman": 0.537
+      }
+    }
+  },
+  "deciles_net_all_ranked": [
+    {
+      "decile": 1,
+      "customers": 331,
+      "mean_predicted_gbp": 77.36,
+      "mean_actual_gbp": 158.75,
+      "total_actual_gbp": 52547.26,
+      "total_actual_share_pct": 2.17
+    },
+    {
+      "decile": 2,
+      "customers": 331,
+      "mean_predicted_gbp": 107.73,
+      "mean_actual_gbp": 154.33,
+      "total_actual_gbp": 51081.59,
+      "total_actual_share_pct": 2.11
+    },
+    {
+      "decile": 3,
+      "customers": 330,
+      "mean_predicted_gbp": 129.36,
+      "mean_actual_gbp": 213.22,
+      "total_actual_gbp": 70363.19,
+      "total_actual_share_pct": 2.9
+    },
+    {
+      "decile": 4,
+      "customers": 331,
+      "mean_predicted_gbp": 154.76,
+      "mean_actual_gbp": 213.78,
+      "total_actual_gbp": 70760.12,
+      "total_actual_share_pct": 2.92
+    },
+    {
+      "decile": 5,
+      "customers": 330,
+      "mean_predicted_gbp": 190.11,
+      "mean_actual_gbp": 284.26,
+      "total_actual_gbp": 93805.5,
+      "total_actual_share_pct": 3.87
+    },
+    {
+      "decile": 6,
+      "customers": 331,
+      "mean_predicted_gbp": 236.28,
+      "mean_actual_gbp": 315.63,
+      "total_actual_gbp": 104473.19,
+      "total_actual_share_pct": 4.31
+    },
+    {
+      "decile": 7,
+      "customers": 330,
+      "mean_predicted_gbp": 305.36,
+      "mean_actual_gbp": 389.9,
+      "total_actual_gbp": 128667.11,
+      "total_actual_share_pct": 5.3
+    },
+    {
+      "decile": 8,
+      "customers": 331,
+      "mean_predicted_gbp": 402.14,
+      "mean_actual_gbp": 638.28,
+      "total_actual_gbp": 211269.85,
+      "total_actual_share_pct": 8.71
+    },
+    {
+      "decile": 9,
+      "customers": 330,
+      "mean_predicted_gbp": 608.32,
+      "mean_actual_gbp": 872.52,
+      "total_actual_gbp": 287930.24,
+      "total_actual_share_pct": 11.87
+    },
+    {
+      "decile": 10,
+      "customers": 331,
+      "mean_predicted_gbp": 2408.1,
+      "mean_actual_gbp": 4092.66,
+      "total_actual_gbp": 1354670.71,
+      "total_actual_share_pct": 55.85
+    }
+  ],
+  "deciles_gross_all_ranked": [
+    {
+      "decile": 1,
+      "customers": 331,
+      "mean_predicted_gbp": 80.67,
+      "mean_actual_gbp": 160.95,
+      "total_actual_gbp": 53275.98,
+      "total_actual_share_pct": 2.14
+    },
+    {
+      "decile": 2,
+      "customers": 331,
+      "mean_predicted_gbp": 112.29,
+      "mean_actual_gbp": 153.31,
+      "total_actual_gbp": 50744.16,
+      "total_actual_share_pct": 2.03
+    },
+    {
+      "decile": 3,
+      "customers": 330,
+      "mean_predicted_gbp": 134.76,
+      "mean_actual_gbp": 228.4,
+      "total_actual_gbp": 75372.77,
+      "total_actual_share_pct": 3.02
+    },
+    {
+      "decile": 4,
+      "customers": 331,
+      "mean_predicted_gbp": 161.08,
+      "mean_actual_gbp": 214.72,
+      "total_actual_gbp": 71071.31,
+      "total_actual_share_pct": 2.85
+    },
+    {
+      "decile": 5,
+      "customers": 330,
+      "mean_predicted_gbp": 197.85,
+      "mean_actual_gbp": 290.34,
+      "total_actual_gbp": 95810.62,
+      "total_actual_share_pct": 3.84
+    },
+    {
+      "decile": 6,
+      "customers": 331,
+      "mean_predicted_gbp": 245.94,
+      "mean_actual_gbp": 310.84,
+      "total_actual_gbp": 102888.12,
+      "total_actual_share_pct": 4.13
+    },
+    {
+      "decile": 7,
+      "customers": 330,
+      "mean_predicted_gbp": 315.93,
+      "mean_actual_gbp": 411.75,
+      "total_actual_gbp": 135876.83,
+      "total_actual_share_pct": 5.45
+    },
+    {
+      "decile": 8,
+      "customers": 331,
+      "mean_predicted_gbp": 414.82,
+      "mean_actual_gbp": 653.82,
+      "total_actual_gbp": 216415.43,
+      "total_actual_share_pct": 8.68
+    },
+    {
+      "decile": 9,
+      "customers": 330,
+      "mean_predicted_gbp": 621.01,
+      "mean_actual_gbp": 892.69,
+      "total_actual_gbp": 294586.28,
+      "total_actual_share_pct": 11.81
+    },
+    {
+      "decile": 10,
+      "customers": 331,
+      "mean_predicted_gbp": 2465.73,
+      "mean_actual_gbp": 4222.92,
+      "total_actual_gbp": 1397788.15,
+      "total_actual_share_pct": 56.05
+    }
+  ],
+  "deciles_net_baseline_all_ranked": [
+    {
+      "decile": 1,
+      "customers": 331,
+      "mean_predicted_gbp": 50.22,
+      "mean_actual_gbp": 233.26,
+      "total_actual_gbp": 77207.61,
+      "total_actual_share_pct": 3.18
+    },
+    {
+      "decile": 2,
+      "customers": 331,
+      "mean_predicted_gbp": 100.43,
+      "mean_actual_gbp": 146.14,
+      "total_actual_gbp": 48373.7,
+      "total_actual_share_pct": 1.99
+    },
+    {
+      "decile": 3,
+      "customers": 330,
+      "mean_predicted_gbp": 152.42,
+      "mean_actual_gbp": 172.17,
+      "total_actual_gbp": 56817.28,
+      "total_actual_share_pct": 2.34
+    },
+    {
+      "decile": 4,
+      "customers": 331,
+      "mean_predicted_gbp": 215.65,
+      "mean_actual_gbp": 204.6,
+      "total_actual_gbp": 67722.8,
+      "total_actual_share_pct": 2.79
+    },
+    {
+      "decile": 5,
+      "customers": 330,
+      "mean_predicted_gbp": 294.81,
+      "mean_actual_gbp": 333.83,
+      "total_actual_gbp": 110164.22,
+      "total_actual_share_pct": 4.54
+    },
+    {
+      "decile": 6,
+      "customers": 331,
+      "mean_predicted_gbp": 394.51,
+      "mean_actual_gbp": 394.59,
+      "total_actual_gbp": 130608.93,
+      "total_actual_share_pct": 5.38
+    },
+    {
+      "decile": 7,
+      "customers": 330,
+      "mean_predicted_gbp": 540.92,
+      "mean_actual_gbp": 468.04,
+      "total_actual_gbp": 154452.75,
+      "total_actual_share_pct": 6.37
+    },
+    {
+      "decile": 8,
+      "customers": 331,
+      "mean_predicted_gbp": 745.1,
+      "mean_actual_gbp": 598.73,
+      "total_actual_gbp": 198179.69,
+      "total_actual_share_pct": 8.17
+    },
+    {
+      "decile": 9,
+      "customers": 330,
+      "mean_predicted_gbp": 1093.68,
+      "mean_actual_gbp": 930.92,
+      "total_actual_gbp": 307203.55,
+      "total_actual_share_pct": 12.67
+    },
+    {
+      "decile": 10,
+      "customers": 331,
+      "mean_predicted_gbp": 3809.93,
+      "mean_actual_gbp": 3851.48,
+      "total_actual_gbp": 1274838.23,
+      "total_actual_share_pct": 52.56
+    }
+  ],
+  "first_time_customers_in_window": {
+    "first_time_customers": 974,
+    "their_actual_gross_gbp": 541592.44,
+    "all_actual_gross_gbp": 3036850.65,
+    "gross_share_pct": 17.83,
+    "their_actual_net_gbp": 529721.74,
+    "all_actual_net_gbp": 2956112.66,
+    "net_share_pct": 17.92
+  }
+}

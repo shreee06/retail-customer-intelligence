@@ -8,3 +8,6 @@ ipykernel
 openpyxl
 streamlit
 pytest
+lifetimes==0.11.3
+autograd==1.9.1
+dill==0.4.1
