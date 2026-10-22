@@ -1,0 +1,8 @@
+stage,rows,meaning
+source_rows_loaded,541909,Rows read from the source workbook.
+audit_rows_retained,541909,All source rows retained with quality flags.
+cancellations_and_returns,10624,Rows with a cancellation invoice marker or negative quantity; may overlap.
+customer_sales_candidates,391153,Positive quantity and unit price; valid invoice/date/customer identifiers; not cancellation-marked; not a non-product line; not an extra copy of an exact duplicate.
+excluded_from_customer_sales_candidates,150756,Rows not meeting the candidate cohort rules; retained in audit and exclusions output.
+net_spend_cancellation_lines,8506,Valid cancelled/returned product lines subtracted from customer net spend.
+rows_requiring_review,163565,Rows with one or more non-exclusion review flags; flags can overlap.

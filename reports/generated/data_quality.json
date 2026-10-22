@@ -1,0 +1,107 @@
+{
+  "source_file": "Online Retail.xlsx",
+  "source_url": "https://archive.ics.uci.edu/static/public/352/online%2Bretail.zip",
+  "source_sha256": "43465a06f2ccf7c8b5bd2892bc7defb52f97487934fe93b16ae4c3936424676d",
+  "run_timestamp_utc": "2026-10-22T18:33:12.874562+00:00",
+  "pandas_version": "2.3.3",
+  "row_counts": [
+    {
+      "stage": "source_rows_loaded",
+      "rows": 541909,
+      "meaning": "Rows read from the source workbook."
+    },
+    {
+      "stage": "audit_rows_retained",
+      "rows": 541909,
+      "meaning": "All source rows retained with quality flags."
+    },
+    {
+      "stage": "cancellations_and_returns",
+      "rows": 10624,
+      "meaning": "Rows with a cancellation invoice marker or negative quantity; may overlap."
+    },
+    {
+      "stage": "customer_sales_candidates",
+      "rows": 391153,
+      "meaning": "Positive quantity and unit price; valid invoice/date/customer identifiers; not cancellation-marked; not a non-product line; not an extra copy of an exact duplicate."
+    },
+    {
+      "stage": "excluded_from_customer_sales_candidates",
+      "rows": 150756,
+      "meaning": "Rows not meeting the candidate cohort rules; retained in audit and exclusions output."
+    },
+    {
+      "stage": "net_spend_cancellation_lines",
+      "rows": 8506,
+      "meaning": "Valid cancelled/returned product lines subtracted from customer net spend."
+    },
+    {
+      "stage": "rows_requiring_review",
+      "rows": 163565,
+      "meaning": "Rows with one or more non-exclusion review flags; flags can overlap."
+    }
+  ],
+  "quality": {
+    "row_count": 541909,
+    "flag_counts": {
+      "invoice_is_cancellation": 9288,
+      "negative_quantity_return_like": 10624,
+      "missing_invoice_id": 0,
+      "invalid_invoice_id": 3,
+      "invalid_quantity_value": 0,
+      "nonpositive_quantity": 10624,
+      "invalid_unit_price_value": 0,
+      "nonpositive_unit_price": 2517,
+      "invalid_timestamp": 0,
+      "missing_customer_id": 135080,
+      "invalid_customer_id_format": 0,
+      "exact_duplicate_extra_copy": 5268,
+      "non_product_line": 2912,
+      "exact_duplicate_row": 10147,
+      "missing_product_description": 1454,
+      "unexpected_stock_code_format": 54873,
+      "invoice_maps_to_multiple_customers": 0,
+      "stock_code_maps_to_multiple_descriptions": 112742,
+      "zero_quantity": 0,
+      "zero_unit_price": 2515,
+      "negative_unit_price": 2,
+      "cancellation_invoice": 9288,
+      "invalid_invoice_date": 0,
+      "cancellation_or_return_row": 10624,
+      "customer_sales_candidate": 391153
+    },
+    "candidate_exclusion_reason_counts": {
+      "invoice_is_cancellation": 9288,
+      "negative_quantity_return_like": 10624,
+      "missing_invoice_id": 0,
+      "invalid_invoice_id": 3,
+      "invalid_quantity_value": 0,
+      "nonpositive_quantity": 10624,
+      "invalid_unit_price_value": 0,
+      "nonpositive_unit_price": 2517,
+      "invalid_timestamp": 0,
+      "missing_customer_id": 135080,
+      "invalid_customer_id_format": 0,
+      "exact_duplicate_extra_copy": 5268,
+      "non_product_line": 2912
+    },
+    "rows_requiring_review": 163565
+  },
+  "assumptions": {
+    "cancellation_invoice": "InvoiceNo starts with C, case-insensitive, per UCI documentation.",
+    "return_like": "Negative Quantity is separately flagged as return-like; this is a review signal, not a definitive UCI-coded return label.",
+    "customer_sales_candidate": "Positive Quantity and UnitPrice, valid six-digit invoice (optional C is excluded), parseable InvoiceDate, and valid five-digit CustomerID; all other rows remain in audit outputs.",
+    "exact_duplicates": "All copies stay flagged (row_is_exact_duplicate); only copies after the first are excluded from the cohort (exact_duplicate_extra_copy).",
+    "non_product_lines": "Postage, manual, carriage, bank charges, discounts, samples and fees are excluded from revenue/RFM (non_product_line).",
+    "description_anomalies": "Flagged for review and never automatically removed."
+  },
+  "outputs": {
+    "full_audit_csv": "data/processed/transactions_audited.csv",
+    "customer_sales_candidates_csv": "data/processed/customer_sales_candidates.csv",
+    "cancellations_returns_csv": "data/processed/cancellations_returns.csv",
+    "candidate_exclusions_csv": "data/processed/candidate_exclusions.csv",
+    "net_spend_cancellations_csv": "data/processed/net_spend_cancellations.csv",
+    "sqlite_database": "data/processed/online_retail.sqlite",
+    "reconciliation_csv": "reports/generated/reconciliation.csv"
+  }
+}

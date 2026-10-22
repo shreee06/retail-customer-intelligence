@@ -1,0 +1,25 @@
+.venv/
+.vscode/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.env
+.cache/
+*.cache
+.mypy_cache/
+.pytest_cache/
+confusion_matrix.png
+
+# Local environment variants; keep shareable example templates
+.env.*
+!.env.example
+
+# Downloaded source data and derived datasets
+/data/raw/
+/data/processed/
+
+# Additional generated caches and test output
+.ruff_cache/
+.coverage
+htmlcov/
+*.log

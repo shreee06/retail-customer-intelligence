@@ -1,0 +1,38 @@
+{
+  "run_timestamp_utc": "2026-10-22T18:33:17.015296+00:00",
+  "input_file": "data/processed/customer_sales_candidates.csv",
+  "output_file": "data/processed/customer_features.csv",
+  "sqlite_database": "data/processed/online_retail.sqlite",
+  "sqlite_table": "customer_features",
+  "feature_scope": "RFM and customer activity summary from customer-sales candidates only.",
+  "revenue_interpretation": "Net spend in GBP (purchases minus cancellations/returns, Quantity x UnitPrice); gross spend is a separate column; not profit and not CLV.",
+  "definitions": {
+    "recency_days": "Days from last purchase date to one day after the latest candidate invoice date.",
+    "frequency_orders": "Distinct non-cancellation InvoiceNo values per customer.",
+    "gross_spend_gbp": "Sum of candidate purchase lines (Quantity x UnitPrice).",
+    "cancelled_spend_gbp": "Value of the customer's valid cancelled/returned product lines.",
+    "monetary_gbp": "Net spend: gross_spend_gbp minus cancelled_spend_gbp.",
+    "net_spend_nonpositive": "True when net spend is zero or negative; review before using in RFM.",
+    "customer_tenure_days": "Calendar days between the customer's first and last candidate purchase dates."
+  },
+  "reconciliation": {
+    "source_candidate_lines": 391153,
+    "feature_transaction_lines": 391153,
+    "source_distinct_invoices": 18402,
+    "summed_customer_invoice_frequency": 18402,
+    "source_gross_sales_gbp": 8737227.64,
+    "summed_customer_gross_spend_gbp": 8737227.64,
+    "summed_customer_cancelled_spend_gbp": 467827.73,
+    "summed_customer_net_spend_gbp": 8269399.91,
+    "customers_with_nonpositive_net_spend": 14,
+    "source_customers": 4334,
+    "feature_rows": 4334,
+    "snapshot_date": "2011-12-10",
+    "checks": {
+      "line_count_matches": true,
+      "invoice_frequency_matches": true,
+      "gross_sales_matches": true,
+      "customer_count_matches": true
+    }
+  }
+}
