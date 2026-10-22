@@ -23,3 +23,7 @@ confusion_matrix.png
 .coverage
 htmlcov/
 *.log
+
+# Symlinks that Streamlit creates into .venv
+.agents/
+.claude/

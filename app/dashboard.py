@@ -8,6 +8,7 @@ import json
 import os
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
@@ -219,9 +220,12 @@ def page_behaviour():
                                    labels={"frequency_orders": "Orders"}, title="Frequency (log count)"),
                       use_container_width=True)
     c = st.columns(2)
-    c[0].plotly_chart(px.histogram(view, x="monetary_gbp", nbins=50, log_x=True, color="segment",
-                                   labels={"monetary_gbp": "Net spend (£, log scale)"}, title="Net spend"),
-                      use_container_width=True)
+    log_view = view.assign(log10_net_spend=np.log10(view.monetary_gbp))  # ranked customers all have net spend > 0
+    fig = px.histogram(log_view, x="log10_net_spend", nbins=40, color="segment",
+                       labels={"log10_net_spend": "Net spend (£, log scale)"}, title="Net spend")
+    ticks = [t for t in range(-1, 7) if log_view.log10_net_spend.min() - 1 <= t <= log_view.log10_net_spend.max() + 1]
+    fig.update_xaxes(tickvals=ticks, ticktext=[f"£{10 ** t:,.0f}" if t >= 0 else f"£{10 ** t:g}" for t in ticks])
+    c[0].plotly_chart(fig, use_container_width=True)
     c[1].plotly_chart(px.box(view, x="segment", y="monetary_gbp", log_y=True,
                              labels={"monetary_gbp": "Net spend (£, log scale)", "segment": ""},
                              title="Net spend by segment"), use_container_width=True)
@@ -391,7 +395,7 @@ def page_recommendations():
              "and none of them can be forecast by the value model.")
     gross, cancelled = segments.gross_spend_gbp.sum(), segments.cancelled_spend_gbp.sum()
     _finding("Data-supported finding", "Cancellations are material but modest",
-             f"Cancelled and returned value is {gbp(cancelled)}, {pct(cancelled / gross)} of gross spend.")
+             f"Cancelled and returned value is {gbp(cancelled)}, {pct(cancelled / gross * 100)} of gross spend.")
 
     st.subheader("Hypotheses to test")
     n = lambda seg: f"{int(prof[seg]['customers']):,}" if seg in prof else "the"

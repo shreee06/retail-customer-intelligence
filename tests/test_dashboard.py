@@ -145,3 +145,32 @@ def test_dashboard_runs_on_the_real_outputs_when_present():
     for page in PAGES:
         app = run_page(page)
         assert not app.exception, (page, [e.value for e in app.exception])
+
+
+def test_cancellation_share_on_recommendations_is_a_real_percentage(fixture_root):
+    segments = pd.read_csv(fixture_root / "data" / "processed" / "customer_segments.csv")
+    share = segments.cancelled_spend_gbp.sum() / segments.gross_spend_gbp.sum() * 100
+
+    text = all_text(run_page("Recommendations"))
+
+    assert f"{share:.1f}% of gross spend" in text
+
+
+def decode(array):
+    """Plotly may ship numeric arrays as {'dtype': ..., 'bdata': base64}."""
+    if isinstance(array, dict):
+        import base64
+        return np.frombuffer(base64.b64decode(array["bdata"]), dtype=np.dtype(array["dtype"])).astype(float)
+    return np.asarray(array, dtype=float)
+
+
+def test_net_spend_histogram_has_data_on_a_log_axis(fixture_root):
+    app = run_page("Customer behaviour")
+
+    assert not app.exception
+    charts = [json.loads(chart.proto.spec) for chart in app.get("plotly_chart")]
+    net = [c for c in charts if c["layout"].get("title", {}).get("text") == "Net spend"]
+    assert net, "net spend histogram missing"
+    values = np.concatenate([decode(trace.get("x", [])) for trace in net[0]["data"]])
+    assert len(values) > 0 and np.isfinite(values).all()
+    assert max(values) < 10   # log10 of pounds, not raw pounds
